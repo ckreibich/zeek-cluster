@@ -1,0 +1,35 @@
+services:
+  controller:
+    image: ckreibich/zeek
+    command: /usr/local/zeek/bin/zeek -j /tmp/scripts/controller.zeek
+    environment:
+      ZEEK_DEFAULT_LISTEN_ADDRESS: "0.0.0.0"
+    ports:
+      - "2150:2150"
+    volumes:
+      - ./scripts:/tmp/scripts:z
+
+  inst1:
+    image: ckreibich/zeek
+    command: /usr/local/zeek/bin/zeek -j /tmp/scripts/agent.zeek
+    environment:
+      ZEEK_DEFAULT_LISTEN_ADDRESS: "0.0.0.0"
+    ports:
+      - "9999"
+    volumes:
+      - ./scripts:/tmp/scripts:z
+    
+  inst2:
+    image: ckreibich/zeek
+    command: /usr/local/zeek/bin/zeek -j /tmp/scripts/agent.zeek
+    environment:
+      ZEEK_DEFAULT_LISTEN_ADDRESS: "0.0.0.0"
+    ports:
+      - "9999"
+    volumes:
+      - ./scripts:/tmp/scripts:z
+
+  client:
+    image: ckreibich/zeek-client
+    tty: true
+
